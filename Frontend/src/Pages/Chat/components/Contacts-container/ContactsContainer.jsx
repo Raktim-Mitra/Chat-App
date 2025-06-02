@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Heading, HStack, VStack, Text } from "@chakra-ui/react";
 import ProfileInfo from "./Components/Profile-info/ProfileInfo";
 import NewDm from "./Components/New-dm/NewDm";
+
+import { GET_DM_CONTACTS_ROUTES } from "../../../../utils/constants";
+import apiClient from "../../../../lib/api-client";
 const ContactsContainer = () => {
+  useEffect(() => {
+     const getContacts=async()=>{
+        const response=await apiClient.get(GET_DM_CONTACTS_ROUTES,{withCredentials:true})
+        if(response.data.contacts){
+          console.log(response.data.contacts)
+        }
+     }
+     getContacts()
+  }, [])
+  
   return (
     <Box
       w="25%"
