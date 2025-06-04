@@ -5,18 +5,22 @@ import NewDm from "./Components/New-dm/NewDm";
 
 import { GET_DM_CONTACTS_ROUTES } from "../../../../utils/constants";
 import apiClient from "../../../../lib/api-client";
+import { useAppStore } from "../../../../Store";
+import ContatctList from "../../../../Components/ContatctList";
 const ContactsContainer = () => {
+  const {directMessagesContacts,setDirectMessagesContacts}=useAppStore()
   useEffect(() => {
      const getContacts=async()=>{
         const response=await apiClient.get(GET_DM_CONTACTS_ROUTES,{withCredentials:true})
         if(response.data.contacts){
-          console.log(response.data.contacts)
+          console.log(response.data.contacts);
+          setDirectMessagesContacts(response.data.contacts)
         }
      }
      getContacts()
   }, [])
   
-  return (
+  return (  
     <Box
       w="25%"
       h="100vh"
@@ -38,16 +42,17 @@ const ContactsContainer = () => {
         <Heading size="sm" mb={2}>
           Direct Messages
         </Heading>
-        <NewDm /> {/* Adding the NewDm component */}
+        {/* <NewDm /> */}
       </HStack>
 
+        <ContatctList contacts={directMessagesContacts}/>
       {/* Groups */}
-      <VStack align="start" spacing={4}>
+      {/* <VStack align="start" spacing={4}>
         <Heading size="sm" mb={2}>
           Groups
         </Heading>
-        {/* Add Groups here */}
-      </VStack>
+       
+      </VStack> */}
 
       {/* Profile Info - Positioned at the bottom */}
       <ProfileInfo />
